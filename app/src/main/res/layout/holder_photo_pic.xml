@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <data>
+    </data>
+
+    <FrameLayout
+        android:id="@+id/photoPicContainer"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:foreground="@drawable/item_click_light"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="5dp"
+        >
+        <!--<com.leafplain.demo.sharedelementexample.component.AspectRatioImageView-->
+            <!--android:id="@+id/photoPicIV"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:src="@mipmap/ic_launcher"-->
+            <!--/>-->
+        <!--<FrameLayout-->
+            <!--android:id="@+id/click"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/item_click_light"-->
+            <!--android:clickable="true"-->
+            <!--android:focusable="true"-->
+            <!--&gt;-->
+            <ImageView
+                android:id="@+id/photoPicIV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"
+                />
+        <!--</FrameLayout>-->
+
+
+    </FrameLayout>
+</layout>

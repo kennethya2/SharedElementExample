@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.leafplain.demo.sharedelementexample.MainActivity.MainOpenType"/>
+        <variable
+            name="mainPresenter"
+            type="com.leafplain.demo.sharedelementexample.presenter.MainPresenter"/>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dip">
+
+        <Button
+            android:id="@+id/recyclerToActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.RECYCLER_TO_ACTIVITY)}"
+            android:text="Recycler To Activity"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/recyclerToPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.RECYCLER_TO_PAGER)}"
+            android:text="Recycler To Pager"
+            android:textAllCaps="false"
+            android:layout_below="@+id/recyclerToActivity"
+            />
+
+    </RelativeLayout>
+</layout>
