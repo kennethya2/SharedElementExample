@@ -25,13 +25,31 @@
         <activity
             android:name=".activities.recycler_to_activity.RecyclerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActivityTheme" />
+            android:theme="@style/ActivityTheme"
+            />
         <activity
             android:name=".activities.recycler_to_activity.ItemDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActivityTheme" />
-        <activity android:name=".activities.recycler_to_pager.RecyclerToPagerFromActivity" />
-        <activity android:name=".activities.recycler_to_pager.RecyclerToPagerToActivity"></activity>
+            android:theme="@style/ActivityTheme"
+            />
+
+        <activity android:name=".activities.recycler_to_pager.RecyclerToPagerFromActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme"
+            />
+        <activity android:name=".activities.recycler_to_pager.RecyclerToPagerToActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme"
+            />
+
+        <activity android:name=".activities.swipe_to_activity.SwipeFromActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme"
+            />
+        <activity android:name=".activities.swipe_to_activity.SwipeToActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme"
+            />
     </application>
 
 </manifest>

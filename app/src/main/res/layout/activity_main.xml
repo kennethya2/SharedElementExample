@@ -35,5 +35,15 @@
             android:layout_below="@+id/recyclerToActivity"
             />
 
+        <Button
+            android:id="@+id/swipeToActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.SWIPE_TO_ACTIVITY)}"
+            android:text="Swipe To Activity"
+            android:textAllCaps="false"
+            android:layout_below="@+id/recyclerToPager"
+            />
+
     </RelativeLayout>
 </layout>

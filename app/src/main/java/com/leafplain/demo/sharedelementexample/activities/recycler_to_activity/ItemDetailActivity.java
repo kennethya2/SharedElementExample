@@ -23,9 +23,9 @@ public class ItemDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        supportPostponeEnterTransition();
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_item_detail);
-//        supportPostponeEnterTransition();
 
         Bundle extras = getIntent().getExtras();
         ListItemInfo info = (ListItemInfo) extras.getSerializable(RecyclerActivity.EXTRA_ITEM);
@@ -45,7 +45,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                 new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                        supportStartPostponedEnterTransition();
+                        supportStartPostponedEnterTransition();
                     }
 
                     @Override

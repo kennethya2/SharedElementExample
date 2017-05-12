@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public static class MainOpenType{
-        public static final int RECYCLER_TO_ACTIVITY = 1;
-        public static final int RECYCLER_TO_PAGER = 2;
+        public static final int RECYCLER_TO_ACTIVITY    = 1;
+        public static final int RECYCLER_TO_PAGER       = 2;
+        public static final int SWIPE_TO_ACTIVITY       = 3;
     }
 }

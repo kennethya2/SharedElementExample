@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.leafplain.demo.sharedelementexample.MainActivity;
 import com.leafplain.demo.sharedelementexample.activities.recycler_to_activity.RecyclerActivity;
 import com.leafplain.demo.sharedelementexample.activities.recycler_to_pager.RecyclerToPagerFromActivity;
+import com.leafplain.demo.sharedelementexample.activities.swipe_to_activity.SwipeFromActivity;
 import com.leafplain.demo.sharedelementexample.base.basecontract.MainContract;
 
 /**
@@ -35,6 +36,11 @@ public class MainPresenter implements MainContract.Presenter<Integer>{
                 Toast.makeText(context, "RECYCLER_TO_PAGER",Toast.LENGTH_SHORT).show();
                 intent.setClass(context, RecyclerToPagerFromActivity.class);
 //                intent.setAction(ACTION_PRE+"PersonalProfileActivity");
+                break;
+
+            case MainActivity.MainOpenType.SWIPE_TO_ACTIVITY:
+                Toast.makeText(context, "SWIPE_TO_ACTIVITY",Toast.LENGTH_SHORT).show();
+                intent.setClass(context, SwipeFromActivity.class);
                 break;
         }
         context.startActivity(intent);
