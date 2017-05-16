@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.alexvasilkov.gestures.animation.ViewPosition;
 import com.leafplain.demo.sharedelementexample.R;
 import com.leafplain.demo.sharedelementexample.adaptercontrol.FactoryListBinder;
 import com.leafplain.demo.sharedelementexample.adaptercontrol.FactoryListHolder;
@@ -32,6 +33,7 @@ public class RecyclerSwipeFromActivity extends AppCompatActivity
 
     public static final String EXTRA_ITEM = "item";
     public static final String EXTRA_IMAGE_TRANSITION_NAME = "image_transition_name";
+    public static final String EXTRA_POSITION = "position";
 
     private ActivityRecyclerBinding binding;
     private RecyclerSamplePresenter mRecyclerSamplePresenter;
@@ -121,15 +123,20 @@ public class RecyclerSwipeFromActivity extends AppCompatActivity
                 Log.d(TAG,"url:"+ info.data);
                 String transitionName = ViewCompat.getTransitionName(view);
                 Log.d(TAG,"getTransitionName:"+ transitionName);
+                ViewPosition position = ViewPosition.from(view);
+                Log.d(TAG,"positionStr:"+ position.pack());
+
                 Intent intent = new Intent(context, RecyclerSwipeToActivity.class);
-                intent.putExtra(EXTRA_ITEM, info);
-                intent.putExtra(EXTRA_IMAGE_TRANSITION_NAME, transitionName);
+                Bundle extras = new Bundle();
+                extras.putSerializable(EXTRA_ITEM, info);
+                extras.putString(EXTRA_IMAGE_TRANSITION_NAME, transitionName);
+                extras.putString(EXTRA_POSITION, position.pack());
+                intent.putExtras(extras);
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         context,
                         view,
                         transitionName);
-//                ActivityCompat.startActivity(context, intent, options.toBundle());
                 startActivity(intent, options.toBundle());
             }
         };
