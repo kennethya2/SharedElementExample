@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -116,6 +117,7 @@ public class SwipeFromActivity extends AppCompatActivity
             // Requesting opening image in new activity and animating it from current position.
             ViewPosition position = ViewPosition.from(view);
             SwipeToActivity.open(SwipeFromActivity.this, position, info);
+            clickImage = view;
         }
     };
 
@@ -130,9 +132,30 @@ public class SwipeFromActivity extends AppCompatActivity
         });
     }
 
+    private ImageView clickImage = null;
+
 //    @Events.Subscribe(EVENT_SHOW_IMAGE)
-//    private void showImage(boolean show) {
-//        // Fullscreen activity requested to show or hide original image
-//        image.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-//    }
+    private void showImage(boolean show) {
+        if(clickImage==null){return;}
+        // Fullscreen activity requested to show or hide original image
+        clickImage.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showImage(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        showImage(false);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 }

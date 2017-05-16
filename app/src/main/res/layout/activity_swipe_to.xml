@@ -8,9 +8,11 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/backgroundLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="0dp">
+        android:padding="0dp"
+        android:background="@android:color/white">
 
         <com.alexvasilkov.gestures.views.GestureImageView
             android:id="@+id/photoPicIV"

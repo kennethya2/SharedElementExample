@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import com.alexvasilkov.events.Events;
@@ -78,6 +79,8 @@ public class SwipeToActivity extends AppCompatActivity {
         binding.photoPicIV.getPositionAnimator().addPositionUpdateListener(new PositionUpdateListener() {
             @Override
             public void onPositionUpdate(float position, boolean isLeaving) {
+                binding.backgroundLayout.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+                binding.backgroundLayout.getBackground().setAlpha((int) (255 * position));
                 if (position == 0f && isLeaving) { // Exit finished
                     // Asking previous activity to show back original image
                     Events.create(SwipeFromActivity.EVENT_SHOW_IMAGE).param(true).post();
