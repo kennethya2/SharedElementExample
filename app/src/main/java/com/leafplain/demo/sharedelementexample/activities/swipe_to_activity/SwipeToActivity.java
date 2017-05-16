@@ -104,12 +104,12 @@ public class SwipeToActivity extends AppCompatActivity {
         binding.photoPicIV.getPositionAnimator().enter(position, animate);
     }
 
-
     @Override
     public void onBackPressed() {
         if (!binding.photoPicIV.getPositionAnimator().isLeaving()) {
             binding.photoPicIV.getPositionAnimator().exit(true);
         }
+//        super.onBackPressed(); // no back animation
     }
 
     @Events.Subscribe(SwipeFromActivity.EVENT_POSITION_CHANGED)

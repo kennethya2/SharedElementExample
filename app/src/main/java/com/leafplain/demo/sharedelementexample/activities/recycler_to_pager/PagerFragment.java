@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,14 @@ public class PagerFragment extends Fragment {
 
     private FragmentPagerBinding binding;
     private View currentLayout = null;
+
+    private PagerChangeListener mPagerChangeListener;
+    public interface PagerChangeListener{
+        void onPageChanged(int position);
+    }
+    public void setPagerChangeListener(PagerChangeListener listener){
+        mPagerChangeListener = listener;
+    }
 
     public PagerFragment() {
         // Required empty public constructor
@@ -90,6 +99,24 @@ public class PagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         PagerAdapter adapter = new PagerAdapter(getChildFragmentManager(), list);
         binding.viewPager.setAdapter(adapter);
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(mPagerChangeListener!=null){
+                    mPagerChangeListener.onPageChanged(position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         binding.viewPager.setCurrentItem(pos);
 
     }

@@ -26,13 +26,23 @@
             android:textAllCaps="false"/>
 
         <Button
+            android:id="@+id/recyclerToSwipeActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.RECYCLER_TO_SWIPE_ACTIVITY)}"
+            android:text="Recycler To Swipe Activity"
+            android:textAllCaps="false"
+            android:layout_below="@+id/recyclerToActivity"
+            />
+
+        <Button
             android:id="@+id/recyclerToPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.RECYCLER_TO_PAGER)}"
             android:text="Recycler To Pager"
             android:textAllCaps="false"
-            android:layout_below="@+id/recyclerToActivity"
+            android:layout_below="@+id/recyclerToSwipeActivity"
             />
 
         <Button

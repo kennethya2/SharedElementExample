@@ -21,13 +21,13 @@ public class RecyclerToPagerToActivity extends AppCompatActivity {
 
     private String TAG = "PagerToActivity";
 
-
-
     private ActivityRecyclerToPagerToBinding binding;
 
     private int pos;
     private List<ListItemInfo> list;
     private String transitionName;
+
+    private int changedPagerPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class RecyclerToPagerToActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         pos             = extras.getInt(PARAM_POS,0);
+        changedPagerPos = pos;
         list            = (List<ListItemInfo>) extras.getSerializable(PARAM_LIST);
         transitionName  = extras.getString(PARAM_TRANSITION_NAME);
         Log.d(TAG,"pos:"+ pos);
@@ -46,11 +47,25 @@ public class RecyclerToPagerToActivity extends AppCompatActivity {
     }
 
     private void showPager(){
-
         Fragment frag = PagerFragment.newInstance(pos, list, transitionName);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.addSharedElement(view, transitionName);
+        ((PagerFragment)frag).setPagerChangeListener(listener);
         transaction.replace(R.id.pagerContainer, frag);
         transaction.commit();
+    }
+
+    private PagerFragment.PagerChangeListener listener = new PagerFragment.PagerChangeListener() {
+        @Override
+        public void onPageChanged(int position) {
+            changedPagerPos = position;
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        if(changedPagerPos!=pos){
+            finish(); return; // avoid not original image animation issue
+        }
+        super.onBackPressed();
     }
 }
