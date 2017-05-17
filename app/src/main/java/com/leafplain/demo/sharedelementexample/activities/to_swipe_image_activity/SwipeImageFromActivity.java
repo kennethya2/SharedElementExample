@@ -28,10 +28,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class SwipeFromActivity extends AppCompatActivity
+public class SwipeImageFromActivity extends AppCompatActivity
         implements LoadingContract.View<List<ListItemInfo>, String>{
 
-    private String TAG = "SwipeFromActivity";
+    private String TAG = "SwipeImageFromActivity";
 
     public static final String EVENT_SHOW_IMAGE = "show_image";
     public static final String EVENT_POSITION_CHANGED = "position_changed";
@@ -40,7 +40,7 @@ public class SwipeFromActivity extends AppCompatActivity
     private RecyclerSamplePresenter mRecyclerSamplePresenter;
     private RecyclerBindingViewModel mViewModel;
 
-    private SwipeFromActivity context;
+    private SwipeImageFromActivity context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class SwipeFromActivity extends AppCompatActivity
         context = this;
         mViewModel = new RecyclerBindingViewModel();
         binding.setRecyclerDemoViewModel(mViewModel);
-        mRecyclerSamplePresenter = new RecyclerSamplePresenter(SwipeFromActivity.this);
+        mRecyclerSamplePresenter = new RecyclerSamplePresenter(SwipeImageFromActivity.this);
         binding.setPresenter(mRecyclerSamplePresenter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
@@ -120,7 +120,7 @@ public class SwipeFromActivity extends AppCompatActivity
             observer(view);
             // Requesting opening image in new activity and animating it from current position.
             ViewPosition position = ViewPosition.from(view);
-            SwipeToActivity.open(SwipeFromActivity.this, position, info);
+            SwipeImageToActivity.open(SwipeImageFromActivity.this, position, info);
             clickImage = view;
         }
     };

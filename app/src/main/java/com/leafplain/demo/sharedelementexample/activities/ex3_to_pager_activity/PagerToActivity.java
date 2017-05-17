@@ -17,7 +17,7 @@ import static com.leafplain.demo.sharedelementexample.activities.ex3_to_pager_ac
 import static com.leafplain.demo.sharedelementexample.activities.ex3_to_pager_activity.PagerFragment.PARAM_POS;
 import static com.leafplain.demo.sharedelementexample.activities.ex3_to_pager_activity.PagerFragment.PARAM_TRANSITION_NAME;
 
-public class RecyclerToPagerToActivity extends AppCompatActivity {
+public class PagerToActivity extends AppCompatActivity {
 
     private String TAG = "PagerToActivity";
 

@@ -19,9 +19,9 @@ import com.leafplain.demo.sharedelementexample.datamodel.info.ListItemInfo;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class SwipeToActivity extends AppCompatActivity {
+public class SwipeImageToActivity extends AppCompatActivity {
 
-    private String TAG = "SwipeToActivity";
+    private String TAG = "SwipeImageToActivity";
 
     private static final String EXTRA_POSITION = "position";
     private static final String EXTRA_ITEM = "item";
@@ -32,7 +32,7 @@ public class SwipeToActivity extends AppCompatActivity {
     private ActivitySwipeToBinding binding;
 
     public static void open(Activity from, ViewPosition position, ListItemInfo item) {
-        Intent intent = new Intent(from, SwipeToActivity.class);
+        Intent intent = new Intent(from, SwipeImageToActivity.class);
         Bundle extras = new Bundle();
         extras.putString(EXTRA_POSITION, position.pack());
         extras.putSerializable(EXTRA_ITEM, item);
@@ -68,8 +68,8 @@ public class SwipeToActivity extends AppCompatActivity {
                 if (hideOrigImage) {
                     binding.photoPicIV.getViewTreeObserver().removeOnPreDrawListener(this);
                     // Asking previous activity to hide original image
-//                    Events.create(SwipeFromActivity.EVENT_SHOW_IMAGE).param(false).post();
-                    EventBus.getDefault().post(SwipeFromActivity.ImageVisibility.getInstnce().setVisibility(false));
+//                    Events.create(SwipeImageFromActivity.EVENT_SHOW_IMAGE).param(false).post();
+                    EventBus.getDefault().post(SwipeImageFromActivity.ImageVisibility.getInstnce().setVisibility(false));
                 } else if (binding.photoPicIV.getDrawable() != null) {
                     // Requesting hiding original image after first drawing
                     hideOrigImage = true;
@@ -86,7 +86,7 @@ public class SwipeToActivity extends AppCompatActivity {
                 binding.backgroundLayout.getBackground().setAlpha((int) (255 * position));
                 if (position == 0f && isLeaving) { // Exit finished
                     // Asking previous activity to show back original image
-                    EventBus.getDefault().post(SwipeFromActivity.ImageVisibility.getInstnce().setVisibility(true));
+                    EventBus.getDefault().post(SwipeImageFromActivity.ImageVisibility.getInstnce().setVisibility(true));
                     Log.d(TAG,"isLeaving...");
 
                     // By default end of exit animation will return GestureImageView into

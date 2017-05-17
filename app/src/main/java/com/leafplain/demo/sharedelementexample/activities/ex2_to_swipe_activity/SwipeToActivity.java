@@ -17,9 +17,9 @@ import com.leafplain.demo.sharedelementexample.datamodel.info.ListItemInfo;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-public class RecyclerSwipeToActivity extends AppCompatActivity {
+public class SwipeToActivity extends AppCompatActivity {
 
-    private String TAG = "RecyclerSwipeToActivity";
+    private String TAG = "SwipeImageToActivity";
     private ActivityRecyclerSwipeToBinding binding;
 
     @Override
@@ -29,14 +29,14 @@ public class RecyclerSwipeToActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recycler_swipe_to);
 
         Bundle extras = getIntent().getExtras();
-        ListItemInfo info = (ListItemInfo) extras.getSerializable(RecyclerSwipeFromActivity.EXTRA_ITEM);
+        ListItemInfo info = (ListItemInfo) extras.getSerializable(SwipeFromActivity.EXTRA_ITEM);
         String photoURL = (String) info.data;
         binding.descTV.setText(photoURL);
 
-        String transitionName = extras.getString(RecyclerSwipeFromActivity.EXTRA_IMAGE_TRANSITION_NAME);
+        String transitionName = extras.getString(SwipeFromActivity.EXTRA_IMAGE_TRANSITION_NAME);
 //        Log.d(TAG,"transitionName:"+transitionName);
 
-        String positionStr = extras.getString(RecyclerSwipeFromActivity.EXTRA_POSITION);
+        String positionStr = extras.getString(SwipeFromActivity.EXTRA_POSITION);
 //        Log.d(TAG,"positionStr:"+positionStr);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -31,28 +31,28 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
 
-        <activity android:name=".activities.ex2_to_swipe_activity.RecyclerSwipeFromActivity"
+        <activity android:name=".activities.ex2_to_swipe_activity.SwipeFromActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
-        <activity android:name=".activities.ex2_to_swipe_activity.RecyclerSwipeToActivity"
+        <activity android:name=".activities.ex2_to_swipe_activity.SwipeToActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
 
         <activity
-            android:name=".activities.ex3_to_pager_activity.RecyclerToPagerFromActivity"
+            android:name=".activities.ex3_to_pager_activity.PagerFromActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
         <activity
-            android:name=".activities.ex3_to_pager_activity.RecyclerToPagerToActivity"
+            android:name=".activities.ex3_to_pager_activity.PagerToActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
 
         <activity
-            android:name=".activities.to_swipe_image_activity.SwipeFromActivity"
+            android:name=".activities.to_swipe_image_activity.SwipeImageFromActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
         <activity
-            android:name=".activities.to_swipe_image_activity.SwipeToActivity"
+            android:name=".activities.to_swipe_image_activity.SwipeImageToActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
 
