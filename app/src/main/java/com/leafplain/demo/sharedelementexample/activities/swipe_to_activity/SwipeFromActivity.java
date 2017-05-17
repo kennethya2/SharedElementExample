@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
-import com.alexvasilkov.events.Events;
 import com.alexvasilkov.gestures.animation.ViewPosition;
 import com.leafplain.demo.sharedelementexample.R;
 import com.leafplain.demo.sharedelementexample.adaptercontrol.FactoryListBinder;
@@ -21,6 +21,10 @@ import com.leafplain.demo.sharedelementexample.databinding.ActivityRecyclerBindi
 import com.leafplain.demo.sharedelementexample.datamodel.info.ListItemInfo;
 import com.leafplain.demo.sharedelementexample.datamodel.view.RecyclerBindingViewModel;
 import com.leafplain.demo.sharedelementexample.presenter.recyclersmaple.RecyclerSamplePresenter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -127,35 +131,45 @@ public class SwipeFromActivity extends AppCompatActivity
             public void onGlobalLayout() {
                 // Notifying fullscreen image activity about image position changes.
                 ViewPosition position = ViewPosition.from(image);
-                Events.create(EVENT_POSITION_CHANGED).param(position).post();
+//                Events.create(EVENT_POSITION_CHANGED).param(position).post();
             }
         });
     }
 
     private ImageView clickImage = null;
 
-//    @Events.Subscribe(EVENT_SHOW_IMAGE)
-    private void showImage(boolean show) {
-        if(clickImage==null){return;}
-        // Fullscreen activity requested to show or hide original image
+    // next view call visibility change
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(ImageVisibility event) {
+        boolean show = event.getVisibility();
         clickImage.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        showImage(true);
+    public static class ImageVisibility{
+        private ImageVisibility(){}
+        public static ImageVisibility getInstnce(){
+            return new ImageVisibility();
+        }
+        boolean visible;
+        public ImageVisibility setVisibility(boolean visible){
+            this.visible = visible; return this;
+        }
+        public boolean getVisibility(){
+            return visible;
+        }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        showImage(false);
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG,"onStart");
+        EventBus.getDefault().register(this);
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
+        Log.i(TAG,"onStop");
+        EventBus.getDefault().unregister(this);
     }
 }

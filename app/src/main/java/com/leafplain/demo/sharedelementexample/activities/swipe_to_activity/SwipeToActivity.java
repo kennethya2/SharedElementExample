@@ -4,18 +4,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 
-import com.alexvasilkov.events.Events;
 import com.alexvasilkov.gestures.animation.ViewPosition;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator.PositionUpdateListener;
 import com.leafplain.demo.sharedelementexample.MyApplication;
 import com.leafplain.demo.sharedelementexample.R;
 import com.leafplain.demo.sharedelementexample.databinding.ActivitySwipeToBinding;
 import com.leafplain.demo.sharedelementexample.datamodel.info.ListItemInfo;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class SwipeToActivity extends AppCompatActivity {
 
@@ -50,8 +52,8 @@ public class SwipeToActivity extends AppCompatActivity {
         positionStr = extras.getString(EXTRA_POSITION, "");
         item = (ListItemInfo) extras.getSerializable(EXTRA_ITEM);
         String url = (String) item.data;
-        Log.d(TAG,"positionStr:"+positionStr);
-        Log.d(TAG,"url:"+url);
+//        Log.d(TAG,"positionStr:"+positionStr);
+//        Log.d(TAG,"url:"+url);
 
         MyApplication.imageLoader.displayImage(url,
                 binding.photoPicIV,
@@ -66,7 +68,8 @@ public class SwipeToActivity extends AppCompatActivity {
                 if (hideOrigImage) {
                     binding.photoPicIV.getViewTreeObserver().removeOnPreDrawListener(this);
                     // Asking previous activity to hide original image
-                    Events.create(SwipeFromActivity.EVENT_SHOW_IMAGE).param(false).post();
+//                    Events.create(SwipeFromActivity.EVENT_SHOW_IMAGE).param(false).post();
+                    EventBus.getDefault().post(SwipeFromActivity.ImageVisibility.getInstnce().setVisibility(false));
                 } else if (binding.photoPicIV.getDrawable() != null) {
                     // Requesting hiding original image after first drawing
                     hideOrigImage = true;
@@ -83,17 +86,20 @@ public class SwipeToActivity extends AppCompatActivity {
                 binding.backgroundLayout.getBackground().setAlpha((int) (255 * position));
                 if (position == 0f && isLeaving) { // Exit finished
                     // Asking previous activity to show back original image
-                    Events.create(SwipeFromActivity.EVENT_SHOW_IMAGE).param(true).post();
-
-                    // By default end of exit animation will return GestureImageView into
-                    // fullscreen state, this will make the image blink. So we need to hack this
-                    // behaviour and keep image in exit state until activity is finished.
-                    binding.photoPicIV.getController().getSettings().disableBounds();
-                    binding.photoPicIV.getPositionAnimator().setState(0f, false, false);
-
+                    EventBus.getDefault().post(SwipeFromActivity.ImageVisibility.getInstnce().setVisibility(true));
+                    Log.d(TAG,"isLeaving...");
+                    // later finish avoid previous activity original image visible blink
                     // Finishing activity
-                    finish();
-                    overridePendingTransition(0, 0); // No activity animation
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                            overridePendingTransition(0, 0); // No activity animation
+                            Log.i(TAG,"finish");
+                        }
+                    }, 100);
+//                    finish();
+//                    overridePendingTransition(0, 0); // No activity animation
                 }
             }
         });
@@ -110,11 +116,5 @@ public class SwipeToActivity extends AppCompatActivity {
             binding.photoPicIV.getPositionAnimator().exit(true);
         }
 //        super.onBackPressed(); // no back animation
-    }
-
-    @Events.Subscribe(SwipeFromActivity.EVENT_POSITION_CHANGED)
-    private void onViewPositionChanged(ViewPosition position) {
-        // If original image position is changed we should update animator with new position.
-        binding.photoPicIV.getPositionAnimator().update(position);
     }
 }
