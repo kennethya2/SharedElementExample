@@ -1,4 +1,4 @@
-package com.leafplain.demo.sharedelementexample.activities.recycler_to_pager;
+package com.leafplain.demo.sharedelementexample.activities.ex3_to_pager_activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import com.leafplain.demo.sharedelementexample.datamodel.info.ListItemInfo;
 
 import java.util.List;
 
-import static com.leafplain.demo.sharedelementexample.activities.recycler_to_pager.PagerFragment.PARAM_LIST;
-import static com.leafplain.demo.sharedelementexample.activities.recycler_to_pager.PagerFragment.PARAM_POS;
-import static com.leafplain.demo.sharedelementexample.activities.recycler_to_pager.PagerFragment.PARAM_TRANSITION_NAME;
+import static com.leafplain.demo.sharedelementexample.activities.ex3_to_pager_activity.PagerFragment.PARAM_LIST;
+import static com.leafplain.demo.sharedelementexample.activities.ex3_to_pager_activity.PagerFragment.PARAM_POS;
+import static com.leafplain.demo.sharedelementexample.activities.ex3_to_pager_activity.PagerFragment.PARAM_TRANSITION_NAME;
 
 public class RecyclerToPagerToActivity extends AppCompatActivity {
 

@@ -23,36 +23,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.recycler_to_activity.RecyclerActivity"
+            android:name=".activities.ex1_to_activity.RecyclerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
         <activity
-            android:name=".activities.recycler_to_activity.ItemDetailActivity"
+            android:name=".activities.ex1_to_activity.ItemDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
 
-        <activity android:name=".activities.recycler_to_swipe_activity.RecyclerSwipeFromActivity"
+        <activity android:name=".activities.ex2_to_swipe_activity.RecyclerSwipeFromActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
-        <activity android:name=".activities.recycler_to_swipe_activity.RecyclerSwipeToActivity"
+        <activity android:name=".activities.ex2_to_swipe_activity.RecyclerSwipeToActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
 
         <activity
-            android:name=".activities.recycler_to_pager.RecyclerToPagerFromActivity"
+            android:name=".activities.ex3_to_pager_activity.RecyclerToPagerFromActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
         <activity
-            android:name=".activities.recycler_to_pager.RecyclerToPagerToActivity"
+            android:name=".activities.ex3_to_pager_activity.RecyclerToPagerToActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
 
         <activity
-            android:name=".activities.swipe_to_activity.SwipeFromActivity"
+            android:name=".activities.to_swipe_image_activity.SwipeFromActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
         <activity
-            android:name=".activities.swipe_to_activity.SwipeToActivity"
+            android:name=".activities.to_swipe_image_activity.SwipeToActivity"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
 

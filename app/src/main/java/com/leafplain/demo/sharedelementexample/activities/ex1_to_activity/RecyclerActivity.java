@@ -1,17 +1,17 @@
-package com.leafplain.demo.sharedelementexample.activities.swipe_to_activity;
+package com.leafplain.demo.sharedelementexample.activities.ex1_to_activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
-import com.alexvasilkov.gestures.animation.ViewPosition;
 import com.leafplain.demo.sharedelementexample.R;
 import com.leafplain.demo.sharedelementexample.adaptercontrol.FactoryListBinder;
 import com.leafplain.demo.sharedelementexample.adaptercontrol.FactoryListHolder;
@@ -22,38 +22,40 @@ import com.leafplain.demo.sharedelementexample.datamodel.info.ListItemInfo;
 import com.leafplain.demo.sharedelementexample.datamodel.view.RecyclerBindingViewModel;
 import com.leafplain.demo.sharedelementexample.presenter.recyclersmaple.RecyclerSamplePresenter;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.List;
 
-public class SwipeFromActivity extends AppCompatActivity
+
+public class RecyclerActivity extends AppCompatActivity
         implements LoadingContract.View<List<ListItemInfo>, String>{
 
-    private String TAG = "SwipeFromActivity";
+    private String TAG = "RecyclerActivity";
 
-    public static final String EVENT_SHOW_IMAGE = "show_image";
-    public static final String EVENT_POSITION_CHANGED = "position_changed";
+
+    public static final String EXTRA_ITEM = "item";
+    public static final String EXTRA_IMAGE_TRANSITION_NAME = "image_transition_name";
 
     private ActivityRecyclerBinding binding;
     private RecyclerSamplePresenter mRecyclerSamplePresenter;
     private RecyclerBindingViewModel mViewModel;
 
-    private SwipeFromActivity context;
+    private RecyclerActivity context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_recycler);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recycler);
         context = this;
         mViewModel = new RecyclerBindingViewModel();
         binding.setRecyclerDemoViewModel(mViewModel);
-        mRecyclerSamplePresenter = new RecyclerSamplePresenter(SwipeFromActivity.this);
+//
+//
+        mRecyclerSamplePresenter = new RecyclerSamplePresenter(RecyclerActivity.this);
         binding.setPresenter(mRecyclerSamplePresenter);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         binding.recyclerView.setLayoutManager(gridLayoutManager);
+//        mRecyclerBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mRecyclerSamplePresenter.start();
 
@@ -111,65 +113,27 @@ public class SwipeFromActivity extends AppCompatActivity
             listBinderFactory.setItemClickListener(clickItemListener);
             listBinderFactory.bindHolder(position, viewHolder, result.get(position));
         }
-    }
 
-    private ClickListener.ClickListItemListener clickItemListener
-            = new ClickListener.ClickListItemListener<Integer, ListItemInfo, ImageView>(){
-        @Override
-        public void onItemClick(Integer pos, ListItemInfo info, ImageView view) {
-            observer(view);
-            // Requesting opening image in new activity and animating it from current position.
-            ViewPosition position = ViewPosition.from(view);
-            SwipeToActivity.open(SwipeFromActivity.this, position, info);
-            clickImage = view;
-        }
-    };
-
-    private void observer(final ImageView image){
-        image.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        private ClickListener.ClickListItemListener clickItemListener
+                = new ClickListener.ClickListItemListener<Integer, ListItemInfo, ImageView>(){
             @Override
-            public void onGlobalLayout() {
-                // Notifying fullscreen image activity about image position changes.
-                ViewPosition position = ViewPosition.from(image);
-//                Events.create(EVENT_POSITION_CHANGED).param(position).post();
+            public void onItemClick(Integer pos, ListItemInfo info, ImageView view) {
+                Log.d(TAG,"view==null:"+ (view==null));
+                Log.d(TAG,"url:"+ info.data);
+                String transitionName = ViewCompat.getTransitionName(view);
+                Log.d(TAG,"getTransitionName:"+ transitionName);
+                Intent intent = new Intent(context, ItemDetailActivity.class);
+                intent.putExtra(EXTRA_ITEM, info);
+                intent.putExtra(EXTRA_IMAGE_TRANSITION_NAME, transitionName);
+
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        context,
+                        view,
+                        transitionName);
+//                ActivityCompat.startActivity(context, intent, options.toBundle());
+                startActivity(intent, options.toBundle());
             }
-        });
-    }
+        };
 
-    private ImageView clickImage = null;
-
-    // next view call visibility change
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(ImageVisibility event) {
-        boolean show = event.getVisibility();
-        clickImage.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-    }
-
-    public static class ImageVisibility{
-        private ImageVisibility(){}
-        public static ImageVisibility getInstnce(){
-            return new ImageVisibility();
-        }
-        boolean visible;
-        public ImageVisibility setVisibility(boolean visible){
-            this.visible = visible; return this;
-        }
-        public boolean getVisibility(){
-            return visible;
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.i(TAG,"onStart");
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i(TAG,"onStop");
-        EventBus.getDefault().unregister(this);
     }
 }

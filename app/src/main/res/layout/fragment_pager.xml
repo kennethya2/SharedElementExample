@@ -8,7 +8,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.leafplain.demo.sharedelementexample.activities.recycler_to_pager.PagerFragment"
+        tools:context="com.leafplain.demo.sharedelementexample.activities.ex3_to_pager_activity.PagerFragment"
         android:background="@color/black"
         android:clickable="true"
         >

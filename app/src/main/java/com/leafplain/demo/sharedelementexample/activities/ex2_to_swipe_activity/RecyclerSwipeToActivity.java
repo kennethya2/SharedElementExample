@@ -1,4 +1,4 @@
-package com.leafplain.demo.sharedelementexample.activities.recycler_to_swipe_activity;
+package com.leafplain.demo.sharedelementexample.activities.ex2_to_swipe_activity;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;

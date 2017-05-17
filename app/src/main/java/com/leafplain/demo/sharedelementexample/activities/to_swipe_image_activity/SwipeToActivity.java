@@ -1,4 +1,4 @@
-package com.leafplain.demo.sharedelementexample.activities.swipe_to_activity;
+package com.leafplain.demo.sharedelementexample.activities.to_swipe_image_activity;
 
 import android.app.Activity;
 import android.content.Intent;

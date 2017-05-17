@@ -21,16 +21,16 @@
             android:id="@+id/recyclerToActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.RECYCLER_TO_ACTIVITY)}"
-            android:text="Recycler To Activity"
+            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.TO_ACTIVITY)}"
+            android:text="To Activity"
             android:textAllCaps="false"/>
 
         <Button
             android:id="@+id/recyclerToSwipeActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.RECYCLER_TO_SWIPE_ACTIVITY)}"
-            android:text="Recycler To Swipe Activity"
+            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.TO_SWIPE_ACTIVITY)}"
+            android:text="To Swipe Activity"
             android:textAllCaps="false"
             android:layout_below="@+id/recyclerToActivity"
             />
@@ -39,8 +39,8 @@
             android:id="@+id/recyclerToPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.RECYCLER_TO_PAGER)}"
-            android:text="Recycler To Pager"
+            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.TO_PAGER_ACTIVITY)}"
+            android:text="To Pager Activity"
             android:textAllCaps="false"
             android:layout_below="@+id/recyclerToSwipeActivity"
             />
@@ -49,8 +49,8 @@
             android:id="@+id/swipeToActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.SWIPE_TO_ACTIVITY)}"
-            android:text="Swipe To Activity"
+            android:onClick="@{() -> mainPresenter.onTypeClick(MainOpenType.TO_SWIPE_IMAGE_ACTIVITY)}"
+            android:text="To Image Activity"
             android:textAllCaps="false"
             android:layout_below="@+id/recyclerToPager"
             />

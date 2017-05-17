@@ -1,4 +1,4 @@
-package com.leafplain.demo.sharedelementexample.activities.recycler_to_activity;
+package com.leafplain.demo.sharedelementexample.activities.ex1_to_activity;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;

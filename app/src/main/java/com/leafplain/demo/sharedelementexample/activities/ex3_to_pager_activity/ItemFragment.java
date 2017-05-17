@@ -1,4 +1,4 @@
-package com.leafplain.demo.sharedelementexample.activities.recycler_to_pager;
+package com.leafplain.demo.sharedelementexample.activities.ex3_to_pager_activity;
 
 
 import android.content.Context;
