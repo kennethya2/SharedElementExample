@@ -88,6 +88,12 @@ public class SwipeToActivity extends AppCompatActivity {
                     // Asking previous activity to show back original image
                     EventBus.getDefault().post(SwipeFromActivity.ImageVisibility.getInstnce().setVisibility(true));
                     Log.d(TAG,"isLeaving...");
+
+                    // By default end of exit animation will return GestureImageView into
+                    // fullscreen state, this will make the image blink. So we need to hack this
+                    // behaviour and keep image in exit state until activity is finished.
+                    binding.photoPicIV.getController().getSettings().disableBounds();
+                    binding.photoPicIV.getPositionAnimator().setState(0f, false, false);
                     // later finish avoid previous activity original image visible blink
                     // Finishing activity
                     new Handler().postDelayed(new Runnable() {

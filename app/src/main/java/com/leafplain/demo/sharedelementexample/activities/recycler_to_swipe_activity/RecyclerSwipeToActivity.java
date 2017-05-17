@@ -2,10 +2,10 @@ package com.leafplain.demo.sharedelementexample.activities.recycler_to_swipe_act
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.alexvasilkov.gestures.animation.ViewPosition;
@@ -34,10 +34,10 @@ public class RecyclerSwipeToActivity extends AppCompatActivity {
         binding.descTV.setText(photoURL);
 
         String transitionName = extras.getString(RecyclerSwipeFromActivity.EXTRA_IMAGE_TRANSITION_NAME);
-        Log.d(TAG,"transitionName:"+transitionName);
+//        Log.d(TAG,"transitionName:"+transitionName);
 
         String positionStr = extras.getString(RecyclerSwipeFromActivity.EXTRA_POSITION);
-        Log.d(TAG,"positionStr:"+positionStr);
+//        Log.d(TAG,"positionStr:"+positionStr);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             binding.photoPicIV.setTransitionName(transitionName);
@@ -61,23 +61,37 @@ public class RecyclerSwipeToActivity extends AppCompatActivity {
         binding.gestureLayout2.getPositionAnimator().addPositionUpdateListener(new PositionUpdateListener() {
             @Override
             public void onPositionUpdate(float position, boolean isLeaving) {
-//                Log.d(TAG,"position:"+position);
-//                Log.d(TAG,"isLeaving:"+isLeaving);
                 binding.backgroundLayout.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
                 binding.backgroundLayout.getBackground().setAlpha((int) (255 * position));
-
                 if (position == 0f && isLeaving) { // Exit finished
-                    Log.i(TAG,"isLeaving:"+isLeaving);
                     // Finishing activity
                     finish();
-//                    onBackPressed();
                 }
             }
         });
 
 //        binding.gestureLayout2.getPositionAnimator().enter(false);
-        ViewPosition position = ViewPosition.unpack(positionStr);
-        binding.gestureLayout2.getPositionAnimator().enter(position, false);
+//        ViewPosition position = ViewPosition.unpack(positionStr);
+        ViewPosition resizePosition = resizePosition(positionStr);
+        binding.gestureLayout2.getPositionAnimator().enter(resizePosition, false);//
+    }
+
+    //
+    private final int shrinkValue = 6;
+    private final int shrinkRatio = shrinkValue*2;
+    private ViewPosition resizePosition(String oldPositionStr){
+        String newPositionStr = "";
+        ViewPosition position = ViewPosition.unpack(oldPositionStr);
+        Rect rect = position.view;
+        int newLeft     = rect.centerX()-(rect.width()/shrinkRatio);
+        int newRight    = rect.centerX()+(rect.width()/shrinkRatio);
+        int newTop      = rect.centerY()-(rect.height()/shrinkRatio);
+        int newBottom   = rect.centerY()+(rect.height()/shrinkRatio);
+        newPositionStr = ""+newLeft+" "+ newTop+" "+newRight+" "+newBottom;
+        newPositionStr = newPositionStr+"#"+newPositionStr+"#"+newPositionStr;
+//        Log.d(TAG,"newPositionStr:"+newPositionStr);
+        ViewPosition newPosition = ViewPosition.unpack(newPositionStr);
+        return newPosition;
     }
 
     @Override
