@@ -38,8 +38,8 @@ public class CustomView extends RelativeLayout {
     }
 
     private boolean mPassTouchEventsUp = false;
-    public synchronized void setParentTouchEvents(boolean passTouchEventsUp){
-        Log.d(TAG, "@@ setParentTouchEvents:"+passTouchEventsUp);
-        mPassTouchEventsUp = passTouchEventsUp;
-    }
+//    public synchronized void setParentTouchEvents(boolean passTouchEventsUp){
+//        Log.d(TAG, "@@ setParentTouchEvents:"+passTouchEventsUp);
+//        mPassTouchEventsUp = passTouchEventsUp;
+//    }
 }

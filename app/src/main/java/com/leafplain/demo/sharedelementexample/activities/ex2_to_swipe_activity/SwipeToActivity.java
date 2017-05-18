@@ -125,8 +125,8 @@ public class SwipeToActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         binding.recyclerView.setLayoutManager(layoutManager);
-//        binding.recyclerView.addOnScrollListener(mOnScrollListener);
-//        binding.recyclerView.setOnTouchListener(mOnTouchListener);
+        binding.recyclerView.addOnScrollListener(mOnScrollListener);
+        binding.recyclerView.setOnTouchListener(mOnTouchListener);
         for(int i =0 ; i<TOTAL_SIZE ; i++){
             ListItemInfo mListItemInfo = new ListItemInfo();
             mListItemInfo.type=ListItemInfo.ListType.PHOTO_PIC;
@@ -206,37 +206,45 @@ public class SwipeToActivity extends AppCompatActivity {
         }
     };
     float y_down ;
-    float y_last =-1 ;
+    float y_first   = -1 ;
+    float y_last    = -1 ;
+    float moveDiff  = 0  ;
     private RecyclerView.OnTouchListener mOnTouchListener = new RecyclerView.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             switch(event.getAction())
             {
                 case MotionEvent.ACTION_UP:
-                    y_down = event.getY();
                     Log.d("move","ACTION_UP");
+                    y_first=-1;
                     y_last =-1;
+                    moveDiff = 0;
                     break;
 
                 case MotionEvent.ACTION_MOVE:
                     if(y_last!=-1){
                         if(event.getY()>y_last){
                             if( dragState == WAIT_TOP_DRAG){
-                                mParentLayot.setParentTouchEvents(true);
+//                                mParentLayot.setParentTouchEvents(true);
                                 Log.i(TAG,"Parent Top Grag");
+                                moveDiff = event.getY()-y_first;
+//                                Log.d(TAG,"Move Diff:"+moveDiff);
                             }
                             Log.d("move","swipe to down");
                         }else{
                             if( dragState == WAIT_BOTTOM_DRAG){
-                                mParentLayot.setParentTouchEvents(true);
-                                Log.d(TAG,"Parent Bottom Grag");
+//                                mParentLayot.setParentTouchEvents(true);
+                                Log.i(TAG,"Parent Bottom Grag");
+                                moveDiff = event.getY()-y_first;
+//                                Log.d(TAG,"Move Diff:"+moveDiff);
                             }
                             Log.i("move","swipe to up");
                         }
+                    }else{
+                        y_first = event.getY();
                     }
                     y_last = event.getY();
                     break;
-
             }
             return false;
         }
