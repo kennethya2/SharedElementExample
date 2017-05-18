@@ -21,7 +21,8 @@
             android:layout_height="match_parent"
             android:padding="0dp"
             >
-            <RelativeLayout
+            <com.leafplain.demo.sharedelementexample.activities.ex2_to_swipe_activity.CustomView
+                android:id="@+id/parentLayot"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
@@ -33,8 +34,9 @@
                     android:src="@mipmap/ic_launcher"
                     />
                 <RelativeLayout
+                    android:id="@+id/descRL"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/photoPicIV"
                     android:padding="5dp"
                     >
@@ -44,7 +46,15 @@
                         android:layout_height="wrap_content"
                         />
                 </RelativeLayout>
-            </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/descRL"
+                    />
+
+            </com.leafplain.demo.sharedelementexample.activities.ex2_to_swipe_activity.CustomView>
         </com.alexvasilkov.gestures.views.GestureFrameLayout>>
 
     </RelativeLayout>
