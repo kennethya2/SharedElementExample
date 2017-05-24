@@ -37,7 +37,6 @@ public class SwipeToActivity extends AppCompatActivity {
     private ActivityRecyclerSwipeToBinding binding;
     private ListItemInfo info;
 
-    private CustomView mParentLayot;
     private RecyclerView mRecyclerView;
 
     @Override
@@ -46,7 +45,6 @@ public class SwipeToActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         context = this;
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recycler_swipe_to);
-        mParentLayot = binding.parentLayot;
         mRecyclerView = binding.recyclerView;
         Bundle extras = getIntent().getExtras();
         info = (ListItemInfo) extras.getSerializable(SwipeFromActivity.EXTRA_ITEM);
@@ -87,8 +85,8 @@ public class SwipeToActivity extends AppCompatActivity {
                     finish();
                 }else if(position==1L){
                     Log.d(TAG,"Stay Here!");
-//                    mParentLayot.setParentTouchEvents(false);
-//                    resetLayoutManager();
+                    y_first=-1;
+                    dragState = DRAG_NOTHING;
                 }
             }
         });
@@ -101,7 +99,6 @@ public class SwipeToActivity extends AppCompatActivity {
         setRecyclerView();
     }
 
-    //
     private final int shrinkValue = 6;
     private final int shrinkRatio = shrinkValue*2;
     private ViewPosition resizePosition(String oldPositionStr){
@@ -172,31 +169,52 @@ public class SwipeToActivity extends AppCompatActivity {
         }
     }
 
+
+    public interface DragStateListener{
+        int getListPosition();
+        int getDragState();
+    }
+    private DragStateListener mDragStateListener = new DragStateListener(){
+        @Override
+        public int getListPosition() {
+            return listPosition;
+        }
+
+        @Override
+        public int getDragState() {
+            return dragState;
+        }
+    };
+
     private int totalItemCount;
-    private int firstVisibleItem;
-    private int lastVisibleItem;
-    private int yMotion; // yMotion<0:go to top  yMotion>0:to to bottom
-    private static final int WAIT_TOP_DRAG=1;
-    private static final int WAIT_BOTTOM_DRAG=2;
-    private static final int WAIT_NOTHING=3;
-    private int dragState = WAIT_TOP_DRAG;
+    public static final int ON_TOP_DRAG=1;
+    public static final int ON_BOTTOM_DRAG=2;
+    public static final int DRAG_NOTHING=3;
+    private int dragState = DRAG_NOTHING;
+
+    public static final int POS_TOP     =1;
+    public static final int POS_BOTTOM  =2;
+    public static final int POS_OTHER   =3;
+    private int listPosition = POS_TOP;
+
     private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             LinearLayoutManager layoutManager   = (LinearLayoutManager) mRecyclerView.getLayoutManager();
             totalItemCount  = layoutManager.getItemCount();
-            firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
-            lastVisibleItem = layoutManager.findLastVisibleItemPosition();
             if(layoutManager.findFirstCompletelyVisibleItemPosition()==0 && dy<=0){
-                Log.i(TAG,"WAIT_TOP_DRAG");
-                dragState = WAIT_TOP_DRAG;
+                Log.i(TAG,"POS_TOP");
+                listPosition = POS_TOP;
+//                dragState = WAIT_TOP_DRAG;
             }else if(layoutManager.findLastCompletelyVisibleItemPosition()==totalItemCount-1 && dy>0){
-                Log.i(TAG,"WAIT_BOTTOM_DRAG");
-                dragState = WAIT_BOTTOM_DRAG;
+                Log.i(TAG,"POS_BOTTOM");
+                listPosition = POS_BOTTOM;
+//                dragState = WAIT_BOTTOM_DRAG;
             }else{
 //                Log.d(TAG,"WAIT_NOTHING");
-                dragState = WAIT_NOTHING;
+                listPosition = POS_OTHER;
+//                dragState = WAIT_NOTHING;
             }
 //            Log.d(TAG,"@@ ----------");
         }
@@ -205,57 +223,46 @@ public class SwipeToActivity extends AppCompatActivity {
             super.onScrollStateChanged(recyclerView, newState);
         }
     };
-    float y_down ;
+
     float y_first   = -1 ;
-    float y_last    = -1 ;
-    float moveDiff  = 0  ;
+    float range     = 100  ;
     private RecyclerView.OnTouchListener mOnTouchListener = new RecyclerView.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent event) {
             switch(event.getAction())
             {
+                case MotionEvent.ACTION_DOWN:
+                    Log.d("move","ACTION_DOWN");
+                    break;
+
                 case MotionEvent.ACTION_UP:
                     Log.d("move","ACTION_UP");
                     y_first=-1;
-                    y_last =-1;
-                    moveDiff = 0;
                     break;
 
                 case MotionEvent.ACTION_MOVE:
-                    if(y_last!=-1){
-                        if(event.getY()>y_last){
-                            if( dragState == WAIT_TOP_DRAG){
-//                                mParentLayot.setParentTouchEvents(true);
-                                Log.i(TAG,"Parent Top Grag");
-                                moveDiff = event.getY()-y_first;
-//                                Log.d(TAG,"Move Diff:"+moveDiff);
-                            }
-                            Log.d("move","swipe to down");
-                        }else{
-                            if( dragState == WAIT_BOTTOM_DRAG){
-//                                mParentLayot.setParentTouchEvents(true);
-                                Log.i(TAG,"Parent Bottom Grag");
-                                moveDiff = event.getY()-y_first;
-//                                Log.d(TAG,"Move Diff:"+moveDiff);
-                            }
-                            Log.i("move","swipe to up");
+                    if(y_first!=-1){
+
+                        if(listPosition == POS_TOP && (event.getY()-y_first)>range){
+//                            dragState = ON_TOP_DRAG;
+                            Log.i(TAG,"gesture scroll down:"+ (event.getY()-y_first) );
+//                            binding.recyclerView.setParentScroll(true);
+                        }
+
+                        if(listPosition == POS_BOTTOM && (y_first-event.getY())>range){
+//                            dragState = ON_BOTTOM_DRAG;
+                            Log.d(TAG,"gesture scroll up:"+ (y_first-event.getY()) );
+//                            binding.recyclerView.setParentScroll(true);
                         }
                     }else{
                         y_first = event.getY();
                     }
-                    y_last = event.getY();
                     break;
             }
             return false;
         }
     };
 
-    private void resetLayoutManager(){
-        Log.i(TAG, "resetListener");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        binding.recyclerView.setLayoutManager(layoutManager);
-    }
 
     @Override
     public void onBackPressed() {
